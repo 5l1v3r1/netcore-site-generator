@@ -1,0 +1,5 @@
+site-generator-client/obj/
+.vs/
+site-generator-lib/obj/
+site-generator-client/bin/
+site-generator-lib/bin/
