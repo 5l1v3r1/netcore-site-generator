@@ -2,8 +2,8 @@
 {
     public class WebsiteEntityField
     {
-        string Name;
-        string Type;
-        string Description;
+        public string Name;
+        public string Type;
+        public string Description;
     }
 }

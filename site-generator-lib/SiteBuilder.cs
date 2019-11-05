@@ -19,6 +19,7 @@ namespace site_generator_lib
                     break;
             }
             return true;
+
         }
     }
 }

@@ -1,12 +1,55 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <RootNamespace>site_generator_lib</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Templates\" />
+    <None Remove="dotnetcore_template.zip" />
+    <None Remove="Templates\dotnetcore\addmodel.t" />
+    <None Remove="Templates\dotnetcore\addmodelvalidator.t" />
+    <None Remove="Templates\dotnetcore\applicationservice.t" />
+    <None Remove="Templates\dotnetcore\controller.t" />
+    <None Remove="Templates\dotnetcore\dbentityconfiguration.t" />
+    <None Remove="Templates\dotnetcore\dbirepository.t" />
+    <None Remove="Templates\dotnetcore\dbrepository.t" />
+    <None Remove="Templates\dotnetcore\domainentity.t" />
+    <None Remove="Templates\dotnetcore\domainentityfactory.t" />
+    <None Remove="Templates\dotnetcore\iapplicationservice.t" />
+    <None Remove="Templates\dotnetcore\model.t" />
+    <None Remove="Templates\dotnetcore\modelvalidator.t" />
+    <None Remove="Templates\dotnetcore\updatemodel.t" />
+    <None Remove="Templates\dotnetcore\updatemodelvalidator.t" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\dotnetcore\addmodel.t" />
+    <EmbeddedResource Include="Templates\dotnetcore\addmodelvalidator.t" />
+    <EmbeddedResource Include="Templates\dotnetcore\dbentityconfiguration.t" />
+    <EmbeddedResource Include="Templates\dotnetcore\dbirepository.t" />
+    <EmbeddedResource Include="Templates\dotnetcore\dbrepository.t" />
+    <EmbeddedResource Include="Templates\dotnetcore\domainentity.t" />
+    <EmbeddedResource Include="Templates\dotnetcore\domainentityfactory.t" />
+    <EmbeddedResource Include="Templates\dotnetcore\model.t" />
+    <EmbeddedResource Include="Templates\dotnetcore\modelvalidator.t" />
+    <EmbeddedResource Include="Templates\dotnetcore\updatemodel.t" />
+    <EmbeddedResource Include="Templates\dotnetcore\updatemodelvalidator.t" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetZip" Version="1.13.4" />
+    <PackageReference Include="Fluid.Core" Version="1.0.0-beta-9599" />
+    <PackageReference Include="Handlebars.Net" Version="1.10.1" />
+    <PackageReference Include="Npgsql" Version="4.1.0-preview2" />
+    <PackageReference Include="Scriban" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\dotnetcore\applicationservice.t" />
+    <EmbeddedResource Include="Templates\dotnetcore\controller.t" />
+    <EmbeddedResource Include="Templates\dotnetcore\dotnetcore_template.zip" />
+    <EmbeddedResource Include="Templates\dotnetcore\iapplicationservice.t" />
   </ItemGroup>
 
 </Project>

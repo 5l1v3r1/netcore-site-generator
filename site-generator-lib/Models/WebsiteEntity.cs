@@ -4,9 +4,9 @@ namespace site_generator_lib.Models
 {
     public class WebsiteEntity
     {
-        string Name;
-        string Description;
+        public string Name;
+        public string Description;
 
-        List<WebsiteEntityField> Fields;
+        public List<WebsiteEntityField> Fields = new List<WebsiteEntityField>();
     }
 }
