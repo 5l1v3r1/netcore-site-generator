@@ -7,6 +7,15 @@
 
   <ItemGroup>
     <None Remove="dotnetcore_template.zip" />
+    <None Remove="Templates\dotnetcoreangular\client\component-html.t" />
+    <None Remove="Templates\dotnetcoreangular\client\component-ts.t" />
+    <None Remove="Templates\dotnetcoreangular\client\module.t" />
+    <None Remove="Templates\dotnetcoreangular\client\nav-menu.t" />
+    <None Remove="Templates\dotnetcoreangular\controller.t" />
+    <None Remove="Templates\dotnetcoreangular\dbentitycontext.t" />
+    <None Remove="Templates\dotnetcoreangular\model.t" />
+    <None Remove="Templates\dotnetcoreangular\startup.t" />
+    <None Remove="Templates\dotnetcoreangular\WebApplication.zip" />
     <None Remove="Templates\dotnetcore\addmodel.t" />
     <None Remove="Templates\dotnetcore\addmodelvalidator.t" />
     <None Remove="Templates\dotnetcore\applicationservice.t" />
@@ -24,6 +33,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Templates\dotnetcoreangular\client\component-html.t" />
+    <EmbeddedResource Include="Templates\dotnetcoreangular\client\component-ts.t" />
+    <EmbeddedResource Include="Templates\dotnetcoreangular\client\module.t" />
+    <EmbeddedResource Include="Templates\dotnetcoreangular\controller.t" />
+    <EmbeddedResource Include="Templates\dotnetcoreangular\dbentitycontext.t" />
+    <EmbeddedResource Include="Templates\dotnetcoreangular\model.t" />
+    <EmbeddedResource Include="Templates\dotnetcoreangular\startup.t" />
+    <EmbeddedResource Include="Templates\dotnetcoreangular\WebApplication.zip" />
     <EmbeddedResource Include="Templates\dotnetcore\addmodel.t" />
     <EmbeddedResource Include="Templates\dotnetcore\addmodelvalidator.t" />
     <EmbeddedResource Include="Templates\dotnetcore\dbentityconfiguration.t" />
@@ -50,6 +67,10 @@
     <EmbeddedResource Include="Templates\dotnetcore\controller.t" />
     <EmbeddedResource Include="Templates\dotnetcore\dotnetcore_template.zip" />
     <EmbeddedResource Include="Templates\dotnetcore\iapplicationservice.t" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\dotnetcoreangular\client\nav-menu.t" />
   </ItemGroup>
 
 </Project>

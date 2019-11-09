@@ -13,7 +13,7 @@ namespace site_generator_lib.Shared
                 case "character varying":   return "string";
                 case "integer":   return "int";
                 case "boolean":   return "bool";
-                case "uuid":   return "string";
+                case "uuid":   return "Guid";
                 case "date":   return "DateTime";
                 default: return type;
             }

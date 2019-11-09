@@ -17,6 +17,78 @@ namespace site_generator_lib.Generators
             var assembly = typeof(Generators.CoreApiGenerator).GetTypeInfo().Assembly;
             var resources = assembly.GetManifestResourceNames();
 
+            using (ZipFile zipFile = ZipFile.Read(assembly.GetManifestResourceStream("site_generator_lib.Templates.dotnetcoreangular.WebApplication.zip")))
+            {
+                FileInfo fileInfo = new FileInfo(assembly.Location);
+                string serverPath = Path.Combine(fileInfo.DirectoryName, $"output{DateTime.Now.ToString("_ddMMyyyy_HHmmss")}", "server");
+                zipFile.ExtractAll(serverPath, ExtractExistingFileAction.OverwriteSilently);
+
+                var fullModel = new { Entities = website.Entities };
+                
+                ParseGenerateFileTemplate("site_generator_lib.Templates.dotnetcoreangular.startup.t", $"{Path.Combine(serverPath, "WebApplication")}\\Startup.cs", fullModel);
+
+                //Cient Generation
+                ParseGenerateFileTemplate("site_generator_lib.Templates.dotnetcoreangular.client.nav-menu.t", $"{Path.Combine(serverPath, "WebApplication", "ClientApp", "src", "app", "nav-menu")}\\nav-menu.component.html", fullModel);
+                ParseGenerateFileTemplate("site_generator_lib.Templates.dotnetcoreangular.client.module.t", $"{Path.Combine(serverPath, "WebApplication", "ClientApp", "src", "app")}\\app.module.ts", fullModel);
+
+
+                foreach (var entityModel in website.Entities)
+                {
+                    var model = new { Name = entityModel.Name, Fields = entityModel.Fields.Select(field => new { Type = Shared.TypeConverter.PostgresToCsharp(field.Type), Name = field.Name }).ToArray() };
+
+                    HandlebarsBlockHelper _propertyList = (TextWriter output, HelperOptions options, dynamic context, object[] arguments) => {
+                        var enumList = arguments[0] as object[];
+                        for (int i = 0; i < enumList.Length; i++)
+                        {
+                            string text = $"{((dynamic)(enumList[i])).Type} _{((dynamic)(enumList[i])).Name}";
+                            if (i < enumList.Length - 1)
+                                text += ",";
+                            output.WriteLine(text);
+                        }
+                    };
+                    Handlebars.RegisterHelper("prop_list", _propertyList);
+
+                    HandlebarsBlockHelper _addModelList = (TextWriter output, HelperOptions options, dynamic context, object[] arguments) => {
+                        var enumList = arguments[0] as object[];
+                        for (int i = 0; i < enumList.Length; i++)
+                        {
+                            string text = $"addModel.{((dynamic)(enumList[i])).Name}";
+                            if (i < enumList.Length - 1)
+                                text += ",";
+                            output.WriteLine(text);
+                        }
+                    };
+                    Handlebars.RegisterHelper("addmodel_list", _addModelList);
+                                        
+                    // Build Database Layer
+                    Directory.CreateDirectory(Path.Combine(serverPath, "WebApplication", "Database", entityModel.Name));
+                    ParseGenerateFileTemplate("site_generator_lib.Templates.dotnetcoreangular.dbentitycontext.t", $"{Path.Combine(serverPath, "WebApplication", "Database")}\\{entityModel.Name}DbContext.cs", model);
+                  
+                    // Build Model Layer
+                    Directory.CreateDirectory(Path.Combine(serverPath, "WebApplication", "Model", "Models", $"{entityModel.Name}Model"));
+                    ParseGenerateFileTemplate("site_generator_lib.Templates.dotnetcoreangular.model.t", $"{Path.Combine(serverPath, "WebApplication", "Model", "Models")}\\{entityModel.Name}.cs", model);
+               
+                    // Build Web Controller Layer
+                    ParseGenerateFileTemplate("site_generator_lib.Templates.dotnetcoreangular.controller.t", $"{Path.Combine(serverPath, "WebApplication", "Controllers")}\\{entityModel.Name}Controller.cs", model);
+
+
+                    // Client //////////////////
+                    Directory.CreateDirectory(Path.Combine(serverPath, "WebApplication", "ClientApp", "src", "app", entityModel.Name));
+                    ParseGenerateFileTemplate("site_generator_lib.Templates.dotnetcoreangular.client.component-ts.t", $"{Path.Combine(serverPath, "WebApplication", "ClientApp", "src", "app", entityModel.Name)}\\{entityModel.Name}.component.ts", model);
+                    ParseGenerateFileTemplate("site_generator_lib.Templates.dotnetcoreangular.client.component-html.t", $"{Path.Combine(serverPath, "WebApplication", "ClientApp", "src", "app", entityModel.Name)}\\{entityModel.Name}.component.html", model);
+
+                }
+
+            }
+
+            return true;
+        }
+
+        public static bool GenerateWebsiteFull(Website website)
+        {
+            var assembly = typeof(Generators.CoreApiGenerator).GetTypeInfo().Assembly;
+            var resources = assembly.GetManifestResourceNames();
+
             using (ZipFile zipFile = ZipFile.Read(assembly.GetManifestResourceStream("site_generator_lib.Templates.dotnetcore.dotnetcore_template.zip")))
             {
                 FileInfo fileInfo = new FileInfo(assembly.Location);
